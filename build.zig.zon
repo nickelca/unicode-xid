@@ -1,0 +1,10 @@
+.{
+    .name = "unicode-xid",
+    .version = "0.0.0",
+    .minimum_zig_version = "0.14.0",
+    .paths = .{
+        "xid_identifier.zig",
+        "build.zig",
+        "build.zig.zon",
+    },
+}
