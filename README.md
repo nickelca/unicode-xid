@@ -14,7 +14,7 @@ zig fetch --save=unicode-xid git+https://github.com/nickelca/unicode-xid#master
 And add the following to your `build.zig`
 
 ```zig
-const unicode_xid = b.dependency("unicode-xid");
+const unicode_xid = b.dependency("unicode-xid", .{});
 exe.root_module.addImport("xid", unicode_xid.module("unicode-xid"));
 ```
 
@@ -33,14 +33,14 @@ pub fn main() !void {
 
     _ = args.skip();
     const input = args.next() orelse return error.TooFewArguments;
-    if (Is_Valid_Identifier(input)) {
+    if (try Is_Valid_Identifier(input)) {
         try stdout.writeAll("Valid identifier.\n");
     } else {
         try stdout.writeAll("Invalid identifier.\n");
     }
 }
 
-fn Is_Valid_Identifier(ident: []const u8) bool {
+fn Is_Valid_Identifier(ident: []const u8) !bool {
     const codepoints: std.unicode.Utf8View = try .init(ident);
     var itt = codepoints.iterator();
     if (itt.nextCodepoint()) |c| if (!xid.Is_XID_Start(c)) {
